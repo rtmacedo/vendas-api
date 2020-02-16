@@ -2,21 +2,40 @@ package com.free.vendas.api.resource;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.free.vendas.api.config.security.TokenService;
 import com.free.vendas.api.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
 	
+	@Autowired
+	private AuthenticationManager authManager;
+	
+	private TokenService tokenService;
+	
 	@PostMapping
 	public ResponseEntity<?> autenticar(@RequestBody @Valid LoginForm form ) {
-		System.out.println(form.getLogin());
-		return ResponseEntity.ok().build();
+		UsernamePasswordAuthenticationToken dadosLogin = form.converter();
+
+		try {
+			Authentication authentication = authManager.authenticate(dadosLogin);
+			String token = tokenService.gerarToken(authentication); 
+			
+			return ResponseEntity.ok().build();
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+		
 	}
 }
