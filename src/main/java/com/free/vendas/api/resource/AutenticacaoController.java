@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.free.vendas.api.config.security.TokenService;
+import com.free.vendas.api.controller.dto.TokenDto;
 import com.free.vendas.api.controller.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
 public class AutenticacaoController {
 	
+	
 	@Autowired
 	private AuthenticationManager authManager;
 	
 	private TokenService tokenService;
+	
 	
 	@PostMapping
 	public ResponseEntity<?> autenticar(@RequestBody @Valid LoginForm form ) {
@@ -32,7 +35,7 @@ public class AutenticacaoController {
 			Authentication authentication = authManager.authenticate(dadosLogin);
 			String token = tokenService.gerarToken(authentication); 
 			
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(new TokenDto(token, "Bearer"));
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}
