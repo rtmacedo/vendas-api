@@ -1,14 +1,14 @@
 package com.free.vendas.api.model;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -17,8 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
-@Table(name="cidade")
-public class Cidade implements Serializable {
+@Table(name="perfil")
+public class Perfil implements GrantedAuthority{
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,10 +28,11 @@ public class Cidade implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@NotNull
-	private String cidade;
-	
-	@NotNull
-	@ManyToOne
-	private Estado estado;
+	@NotBlank
+	private String nome;
+
+	@Override
+	public String getAuthority() {
+		return nome;
+	}
 }
