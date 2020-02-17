@@ -48,7 +48,7 @@ public class Usuario implements UserDetails{
 	private String senha;
 	
 	@NotNull
-	@OneToMany
+	@ManyToMany
 	private List<Endereco> endereço;
 	
 	@ManyToMany(fetch = FetchType.EAGER)

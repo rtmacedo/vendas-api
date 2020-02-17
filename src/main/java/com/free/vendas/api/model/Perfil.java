@@ -11,10 +11,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 @Entity
 @Table(name="perfil")
@@ -24,7 +22,6 @@ public class Perfil implements GrantedAuthority{
 
 	@Id
 	@NotNull
-	@EqualsAndHashCode.Include
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
