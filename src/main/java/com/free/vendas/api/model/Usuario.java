@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -48,10 +49,12 @@ public class Usuario implements UserDetails{
 	private String senha;
 	
 	@NotNull
-	@ManyToMany
+	@OneToMany
+	@JoinColumn
 	private List<Endereco> endereço;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinColumn
 	private List<Perfil> perfis = new ArrayList<>();
 	
 	@Override
